@@ -6,7 +6,7 @@ class Condition extends Symbol {
     Symbol left
     Symbol right
 
-    Condition(String text, String key, String flowState) {
-        super(text, key, flowState)
+    Condition(String key, String text, String flowState) {
+        super(key, text, flowState)
     }
 }

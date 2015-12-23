@@ -3,7 +3,7 @@
  */
 class Start extends Symbol {
 
-    Start(String text, String key, String flowState) {
-        super(text, key, flowState)
+    Start(String key, String text, String flowState) {
+        super(key, text, flowState)
     }
 }

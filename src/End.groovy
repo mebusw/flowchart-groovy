@@ -3,7 +3,7 @@
  */
 class End extends Symbol {
 
-    End(String text, String key, String flowState) {
-        super(text, key, flowState)
+    End(String key, String text, String flowState) {
+        super(key, text, flowState)
     }
 }
