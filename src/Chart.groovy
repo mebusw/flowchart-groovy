@@ -2,29 +2,35 @@
  * Created by jacky on 15/12/23.
  */
 class Chart {
-    Symbol head = null
-    Symbol curr = null
-    List symbols
-
-    public List parse(String dsl) {
-        symbols = []
+    public Map parse(String dsl) {
+        def symbols = [:]
         def lines = dsl.trim().split('\n')
+        def Symbol last = null
 
         for (line in lines) {
-            String[] segs = line.split("=>")
-//            println(segs)
-            def key = segs[0].trim()
+            if (line.contains("=>")) {
+                String[] segs = line.split("=>")
+                def key = segs[0].trim()
 
-            segs = segs[1].split(":")
-//            println(segs)
-            def type = segs[0]
+                segs = segs[1].split(":")
+                def type = segs[0]
 
-            segs = segs[1].split("[|]")
-//            println(segs)
-            def text = segs[0].trim()
-            def flowState = segs[1].trim()
+                segs = segs[1].split("[|]")
+                def text = segs[0].trim()
+                def flowState = segs[1].trim()
 
-            symbols << generateByType(type, key, text, flowState)
+                symbols.put(key, generateByType(type, key, text, flowState))
+            } else if (line.contains("->")) {
+                String[] keys = line.trim().split("->")
+                for (key in keys) {
+                    if (null == last) {
+                        last = symbols[key]
+                        continue
+                    }
+                    last.next = symbols[key]
+                    last = last.next
+                }
+            }
         }
         symbols
     }

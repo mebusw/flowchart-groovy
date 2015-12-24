@@ -70,6 +70,8 @@ class GroovySyntaxTest extends GroovyTestCase {
         }
     }
 
+    def isEven = {x -> return (x%2 == 0)}
+
     void testGroovySyntax() {
         def h = "hello"
         3.times { it ->

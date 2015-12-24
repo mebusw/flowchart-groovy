@@ -32,32 +32,36 @@ class ChartTest extends GroovyTestCase {
 
     }
 
-
-    void testParseStartAndEndSymbols() {
+    void testParseConnections() {
         def dsl = """
             st=>start:开始  |past
             op1=>operation:操作1  |current
             e=>end:结束  |future
+            st->op1->e
             """
 
-        def symbols = new Chart().parse(dsl)
-        def symbol = symbols[0]
-        assertEquals("st", symbol.key)
-        assertEquals("开始", symbol.text)
-        assertEquals("past", symbol.flowState)
-        assertTrue symbol instanceof Start
+        def symbols = new Chart().parse(dsl) as Map<Symbol>
+        def symbol1 = symbols['st']
+        assertEquals("st", symbol1.key)
+        assertEquals("开始", symbol1.text)
+        assertEquals("past", symbol1.flowState)
+        assertTrue symbol1 instanceof Start
 
-        symbol = symbols[1]
-        assertEquals("op1", symbol.key)
-        assertEquals("操作1", symbol.text)
-        assertEquals("current", symbol.flowState)
-        assertTrue symbol instanceof Operation
+        def symbol2 = symbols['op1']
+        assertEquals("op1", symbol2.key)
+        assertEquals("操作1", symbol2.text)
+        assertEquals("current", symbol2.flowState)
+        assertTrue symbol2 instanceof Operation
 
-        symbol = symbols[2]
-        assertEquals("e", symbol.key)
-        assertEquals("结束", symbol.text)
-        assertEquals("future", symbol.flowState)
-        assertTrue symbol instanceof End
+        def symbol3 = symbols['e']
+        assertEquals("e", symbol3.key)
+        assertEquals("结束", symbol3.text)
+        assertEquals("future", symbol3.flowState)
+        assertTrue symbol3 instanceof End
+
+        assertEquals(symbol2, symbol1.next)
+        assertEquals(symbol3, symbol2.next)
+        assertEquals(null, symbol3.next)
+
     }
-
 }
