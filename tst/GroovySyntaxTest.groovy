@@ -108,4 +108,37 @@ class GroovySyntaxTest extends GroovyTestCase {
         println animals.groupBy { it.farmer }.collectEntries { k, v -> [k, v.price.sum()] }
 
     }
+
+    void testListToMap() {
+        def li = [[id: 1, val: 10], [id: 2, val: 20]]
+        def m = [:]
+        li.each { it ->
+            m.put(it.id, it.val)
+        }
+        assertEquals([1: 10, 2: 20], m)
+    }
+
+    void testSubList() {
+        def list = [1, 2, 3, 4, 5]
+        assertEquals(4, list[-2])
+        assertEquals([2, 3, 4], list[1..3])
+        assertEquals([2, 3], list[1..<3])
+
+        assertEquals([5, 2], [2, 5, 7].intersect([5, 9, 2]))
+
+        assertEquals([1, 2, 3, 4, 5, 8, 9], list + [8, 9])
+        assertEquals([3, 4, 5], list - [1, 2])
+
+        assertEquals(21, list.inject(6) { x, y -> x + y })
+
+        assertEquals([2, 4], list.findAll() { x -> x % 2 == 0 })
+        assertEquals([false, true, false, true, false], list.collect() { x -> x % 2 == 0 })
+
+
+        def redundentList = [1, 1, 2, 3]
+        assertEquals([3], redundentList - [1, 2])
+
+        def nestedList = [2, 5, [7, 9]]
+        assertEquals([2, 5, 7, 9], nestedList.flatten())
+    }
 }
