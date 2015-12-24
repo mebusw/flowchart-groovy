@@ -5,7 +5,6 @@ class Chart {
     public Map parse(String dsl) {
         def symbols = [:]
         def lines = dsl.trim().split('\n')
-        def Symbol last = null
 
         for (line in lines) {
             if (line.contains("=>")) {
@@ -22,13 +21,29 @@ class Chart {
                 symbols.put(key, generateByType(type, key, text, flowState))
             } else if (line.contains("->")) {
                 String[] keys = line.trim().split("->")
+                //println("keys=${keys}")
+                def Symbol last = null
+                def lastDir = "yes"
                 for (key in keys) {
+                    if (key.contains("(")) {
+                        lastDir = key.split("\\(|\\)")[1]
+                        key = key.split("\\(|\\)")[0]
+                    }
                     if (null == last) {
                         last = symbols[key]
                         continue
                     }
-                    last.next = symbols[key]
-                    last = last.next
+
+                    if (last instanceof Condition) {
+                        if (lastDir == "no") {
+                            last.no = symbols[key]
+                        } else {
+                            last.yes = symbols[key]
+                        }
+                    } else {
+                        last.next = symbols[key]
+                    }
+                    last = symbols[key]
                 }
             }
         }
@@ -46,6 +61,9 @@ class Chart {
                 break
             case 'operation':
                 result = new Operation(key, text, flowState)
+                break
+            case 'condition':
+                result = new Condition(key, text, flowState)
                 break
             default:
                 throw new Exception(type)

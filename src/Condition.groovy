@@ -3,10 +3,11 @@
  */
 class Condition extends Symbol {
 
-    Symbol left
-    Symbol right
+    Symbol yes
+    Symbol no
 
     Condition(String key, String text, String flowState) {
         super(key, text, flowState)
+        yes = no = null
     }
 }

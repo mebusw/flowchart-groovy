@@ -3,6 +3,7 @@ class Symbol {
     String text
     String key
     String flowState
+    boolean isConnected
 
 
     Symbol(String key, String text, String flowState = "") {
@@ -10,6 +11,7 @@ class Symbol {
         this.text = text
         this.flowState = flowState
         this.next = null
+        isConnected = false
     }
 
 }
