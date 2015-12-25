@@ -73,8 +73,8 @@ class ChartTest extends GroovyTestCase {
             op2=>operation:操作4  |current
             e=>end:结束5  |future
             st->cd1
-            cd1(no)->op2
-            cd1->op1->e
+            cd1(no, left)->op2
+            cd1(yes, right)->op1->e
             """
 
         def symbols = new Chart().parse(dsl) as Map<Symbol>

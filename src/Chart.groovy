@@ -23,11 +23,16 @@ class Chart {
                 String[] keys = line.trim().split("->")
                 //println("keys=${keys}")
                 def Symbol last = null
-                def lastDir = "yes"
+                def lastPath = "yes"
+                def lastDirection = "left"
+
                 for (key in keys) {
                     if (key.contains("(")) {
-                        lastDir = key.split("\\(|\\)")[1]
-                        key = key.split("\\(|\\)")[0]
+                        def fields = key.split("\\(|\\)|,")
+                        key = fields[0].trim()
+                        lastPath = fields[1].trim()
+                        if (fields.size() > 2)
+                            lastDirection = fields[2]
                     }
                     if (null == last) {
                         last = symbols[key]
@@ -35,10 +40,12 @@ class Chart {
                     }
 
                     if (last instanceof Condition) {
-                        if (lastDir == "no") {
+                        if (lastPath == "no") {
                             last.no = symbols[key]
+                            last.yesDirection = lastDirection
                         } else {
                             last.yes = symbols[key]
+                            last.noDirection = lastDirection
                         }
                     } else {
                         last.next = symbols[key]
