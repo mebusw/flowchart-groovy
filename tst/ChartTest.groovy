@@ -40,7 +40,11 @@ class ChartTest extends GroovyTestCase {
             st->op1->e
             """
 
-        def symbols = new Chart().parse(dsl) as Map<Symbol>
+
+        def chart = new Chart()
+
+        def symbols = chart.parse(dsl) as Map<Symbol>
+
         def symbol1 = symbols['st']
         assertEquals("st", symbol1.key)
         assertEquals("开始", symbol1.text)
@@ -63,7 +67,11 @@ class ChartTest extends GroovyTestCase {
         assertEquals(symbol3, symbol2.next)
         assertEquals(null, symbol3.next)
 
+        chart.draw()
+//        assertEquals(100, chart.width)
+
     }
+
 
     void testParseConditionSymbols() {
         def dsl = """
@@ -77,7 +85,10 @@ class ChartTest extends GroovyTestCase {
             cd1(yes, right)->op1->e
             """
 
-        def symbols = new Chart().parse(dsl) as Map<Symbol>
+
+        def chart = new Chart()
+
+        def symbols = chart.parse(dsl) as Map<Symbol>
         def st = symbols['st']
         assertEquals("st", st.key)
         assertEquals("开始1", st.text)

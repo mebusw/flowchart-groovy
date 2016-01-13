@@ -1,7 +1,12 @@
+import javax.imageio.ImageIO
+import java.awt.image.BufferedImage
+
 /**
  * Created by jacky on 15/12/23.
  */
 class Chart {
+    public Start start = null
+
     public Map parse(String dsl) {
         def symbols = [:]
         def lines = dsl.trim().split('\n')
@@ -18,7 +23,11 @@ class Chart {
                 def text = segs[0].trim()
                 def flowState = segs[1].trim()
 
-                symbols.put(key, generateByType(type, key, text, flowState))
+                def symbol = generateByType(type, key, text, flowState)
+                symbols.put(key, symbol)
+                if (type == "start")
+                    this.start = symbol
+
             } else if (line.contains("->")) {
                 String[] keys = line.trim().split("->")
                 //println("keys=${keys}")
@@ -27,6 +36,7 @@ class Chart {
                 def lastDirection = "left"
 
                 for (key in keys) {
+
                     if (key.contains("(")) {
                         def fields = key.split("\\(|\\)|,")
                         key = fields[0].trim()
@@ -54,7 +64,27 @@ class Chart {
                 }
             }
         }
-        symbols
+        return symbols
+    }
+
+    public draw() {
+        int width = 480, hight = 720;
+        BufferedImage image = new BufferedImage(width, hight, BufferedImage.TYPE_INT_RGB);
+
+
+        def curr = this.start
+        def graphics = image.getGraphics()
+
+        while (curr) {
+            curr.draw(graphics)
+            curr = curr.next
+        }
+
+        graphics.dispose();
+        File f = new File("/Users/jacky/Downloads/flowchart.jpg")
+        ImageIO.write(image, "JPEG", f)
+
+
     }
 
     private Symbol generateByType(type, key, text, flowState) {
@@ -77,4 +107,6 @@ class Chart {
         }
         result
     }
+
+
 }

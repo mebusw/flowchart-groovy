@@ -1,3 +1,5 @@
+import java.awt.*
+
 class Symbol {
     Symbol next
     String text
@@ -14,4 +16,6 @@ class Symbol {
         isConnected = false
     }
 
+    def draw(Graphics graphics) {
+    }
 }

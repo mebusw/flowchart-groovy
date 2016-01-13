@@ -70,7 +70,7 @@ class GroovySyntaxTest extends GroovyTestCase {
         }
     }
 
-    def isEven = {x -> return (x%2 == 0)}
+    def isEven = { x -> return (x % 2 == 0) }
 
     void testGroovySyntax() {
         def h = "hello"
@@ -142,5 +142,22 @@ class GroovySyntaxTest extends GroovyTestCase {
 
         def nestedList = [2, 5, [7, 9]]
         assertEquals([2, 5, 7, 9], nestedList.flatten())
+    }
+
+    void testOptional() {
+        Optional s = Optional.empty()
+        def flag
+
+        assertEquals(false, s.present)
+        assertEquals("none", s.orElse("none"))
+        s.ifPresent({ a -> flag = a + "x" })
+        assertEquals(null, flag)
+
+
+        s = Optional.of("abc")
+        assertEquals(true, s.present)
+        s.ifPresent({ a -> flag = a + "x" })
+        assertEquals("abcx", flag)
+
     }
 }
