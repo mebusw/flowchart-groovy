@@ -18,12 +18,20 @@ class Condition extends Symbol {
 
     @Override
     def draw(Graphics g) {
+        g.setColor(Color.BLACK)
+        g.drawLine(this.cx, this.cy, this.yes.cx, this.yes.cy)
+        g.drawLine(this.cx, this.cy, this.no.cx, this.cy)
+        g.drawLine(this.no.cx, this.cy, this.no.cx, this.no.cy)
+
+
         g.setColor(Color.GREEN)
+        def dx = Chart.SYMBOL_WIDTH / 2 as int
+        def dy = Chart.SYMBOL_HEIGHT / 2 as int
+        def xs = [cx, cx - dx, cx, cx + dx] as int[]
+        def ys = [cy - dy, cy, cy + dy, cy] as int[]
+        g.fillPolygon(xs, ys, 4)
 
-        def x = this.cx - Chart.SYMBOL_WIDTH / 2
-        def y = this.cy - Chart.SYMBOL_HEIGHT / 2
-        g.fillRect(x as int, y as int, Chart.SYMBOL_WIDTH, Chart.SYMBOL_HEIGHT)
-
-        //this.next.draw(g);
+        this.yes.draw(g);
+        this.no.draw(g);
     }
 }

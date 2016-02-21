@@ -55,20 +55,21 @@ class Chart {
                             lastDirection = fields[2]
                     }
                     if (null == last) {
-                        // The first symbol in current line
+                        /* The first symbol in current line */
                         last = symbols[key]
                         continue
                     }
 
                     if (last instanceof Condition) {
+                        // Default: yes=bottom/left, no=right
                         if (lastPath == "no") {
                             last.no = symbols[key]
-                            //TODO set the coord
-                            last.yesDirection = lastDirection
+                            symbols[key].cx = last.cx + Chart.LINE_WIDTH + Chart.SYMBOL_WIDTH
+                            symbols[key].cy = last.cy + Chart.LINE_HEIGHT + Chart.SYMBOL_HEIGHT;
                         } else {
                             last.yes = symbols[key]
-                            //TODO set the coord
-                            last.noDirection = lastDirection
+                            symbols[key].cx = last.cx
+                            symbols[key].cy = last.cy + Chart.LINE_HEIGHT + Chart.SYMBOL_HEIGHT;
                         }
                     } else {
                         last.next = symbols[key]

@@ -107,18 +107,24 @@ class ChartTest extends GroovyTestCase {
         assertEquals("操作3", op1.text)
         assertEquals("current", op1.flowState)
         assertTrue op1 instanceof Operation
+        assertEquals Chart.SYMBOL_START_CX, op1.cx
+        assertEquals Chart.SYMBOL_START_CY + (Chart.LINE_HEIGHT + Chart.SYMBOL_HEIGHT) * 2, op1.cy
 
         def op2 = symbols['op2']
         assertEquals("op2", op2.key)
         assertEquals("操作4", op2.text)
         assertEquals("current", op2.flowState)
         assertTrue op2 instanceof Operation
+        assertEquals Chart.SYMBOL_START_CX + Chart.LINE_WIDTH + Chart.SYMBOL_WIDTH, op2.cx
+        assertEquals Chart.SYMBOL_START_CY + (Chart.LINE_HEIGHT + Chart.SYMBOL_HEIGHT) * 2, op2.cy
 
         def e = symbols['e']
         assertEquals("e", e.key)
         assertEquals("结束5", e.text)
         assertEquals("future", e.flowState)
         assertTrue e instanceof End
+        assertEquals Chart.SYMBOL_START_CX, e.cx
+        assertEquals Chart.SYMBOL_START_CY + (Chart.LINE_HEIGHT + Chart.SYMBOL_HEIGHT) * 3, e.cy
 
         assertEquals(cd1, st.next)
         assertEquals(op1, cd1.yes)
