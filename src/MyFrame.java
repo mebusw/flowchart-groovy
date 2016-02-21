@@ -23,7 +23,7 @@ public class MyFrame extends JFrame {
     class DrawPane extends JPanel {
         public void paintComponent(Graphics g) {
             //draw on g here e.g.
-            g.fillRect(20, 20, 100, 200);
+//            g.fillRect(20, 20, 100, 200);
 
 
             String dsl = "st=>start:开始1  |past\n" +
@@ -40,6 +40,7 @@ public class MyFrame extends JFrame {
             Map<String, Symbol> symbols = chart.parse(dsl);
             //symbols.get("st").draw(g);
             chart.start.draw(g);
+
 
 
         }

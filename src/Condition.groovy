@@ -20,5 +20,10 @@ class Condition extends Symbol {
     def draw(Graphics g) {
         g.setColor(Color.GREEN)
 
+        def x = this.cx - Chart.SYMBOL_WIDTH / 2
+        def y = this.cy - Chart.SYMBOL_HEIGHT / 2
+        g.fillRect(x as int, y as int, Chart.SYMBOL_WIDTH, Chart.SYMBOL_HEIGHT)
+
+        //this.next.draw(g);
     }
 }

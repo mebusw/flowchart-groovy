@@ -5,10 +5,12 @@ import java.awt.image.BufferedImage
  * Created by jacky on 15/12/23.
  */
 class Chart {
-    public static int SYMBOL_WIDTH = 150;
-    public static int SYMBOL_HEIGHT = 100;
-    public static int LINE_HEIGHT = 100;
-    public static int LINE_WIDTH = 100;
+    public static int SYMBOL_START_CX = 80
+    public static int SYMBOL_START_CY = 60
+    public static int SYMBOL_WIDTH = 150
+    public static int SYMBOL_HEIGHT = 100
+    public static int LINE_HEIGHT = 100
+    public static int LINE_WIDTH = 100
 
     public Start start = null
 
@@ -30,8 +32,11 @@ class Chart {
 
                 def symbol = generateByType(type, key, text, flowState)
                 symbols.put(key, symbol)
-                if (type == "start")
+                if (type == "start") {
                     this.start = symbol
+                    this.start.cx = Chart.SYMBOL_START_CX
+                    this.start.cy = Chart.SYMBOL_START_CY
+                }
 
             } else if (line.contains("->")) {
                 String[] keys = line.trim().split("->")
@@ -50,8 +55,8 @@ class Chart {
                             lastDirection = fields[2]
                     }
                     if (null == last) {
+                        // The first symbol in current line
                         last = symbols[key]
-                        //TODO it's START, set the coord
                         continue
                     }
 
@@ -67,7 +72,8 @@ class Chart {
                         }
                     } else {
                         last.next = symbols[key]
-                        //TODO set the coord
+                        symbols[key].cx = last.cx
+                        symbols[key].cy = last.cy + Chart.LINE_HEIGHT + Chart.SYMBOL_HEIGHT;
                     }
                     last = symbols[key]
                 }
@@ -75,7 +81,6 @@ class Chart {
         }
         return symbols
     }
-
 
 
     public drawToFile() {

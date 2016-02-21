@@ -3,20 +3,18 @@ import java.awt.*
 class Start extends Symbol {
     Start(String key, String text, String flowState) {
         super(key, text, flowState)
-        this.cx = 50
-        this.cy = 50
     }
 
     @Override
     def draw(Graphics g) {
+        g.setColor(Color.BLACK)
+        g.drawLine(this.cx, this.cy, this.next.cx, this.next.cy)
+
         g.setColor(Color.ORANGE)
+        def diameter = Chart.SYMBOL_WIDTH * 0.4 as int
+        def radius = diameter / 2 as int
+        g.fillOval(cx - radius, cy - radius, diameter, diameter)
 
-        g.fillOval(cx, cy, (int)(Chart.SYMBOL_HEIGHT * 0.5), (int)(Chart.SYMBOL_HEIGHT * 0.5))
-
-//        g.fillRect(0, 0, 40, 40)
-
-//        g.setColor(Color.RED)
-//        g.drawLine(0 + width / 2, height, 0 + width / 2, height + ARROW_LEN);
-//        g.drawLine(2, 30, 2, 50)
+        this.next.draw(g)
     }
 }
