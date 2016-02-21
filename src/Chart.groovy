@@ -5,6 +5,11 @@ import java.awt.image.BufferedImage
  * Created by jacky on 15/12/23.
  */
 class Chart {
+    public static int SYMBOL_WIDTH = 150;
+    public static int SYMBOL_HEIGHT = 100;
+    public static int LINE_HEIGHT = 100;
+    public static int LINE_WIDTH = 100;
+
     public Start start = null
 
     public Map parse(String dsl) {
@@ -46,19 +51,23 @@ class Chart {
                     }
                     if (null == last) {
                         last = symbols[key]
+                        //TODO it's START, set the coord
                         continue
                     }
 
                     if (last instanceof Condition) {
                         if (lastPath == "no") {
                             last.no = symbols[key]
+                            //TODO set the coord
                             last.yesDirection = lastDirection
                         } else {
                             last.yes = symbols[key]
+                            //TODO set the coord
                             last.noDirection = lastDirection
                         }
                     } else {
                         last.next = symbols[key]
+                        //TODO set the coord
                     }
                     last = symbols[key]
                 }
@@ -67,9 +76,11 @@ class Chart {
         return symbols
     }
 
-    public draw() {
-        int width = 480, hight = 720;
-        BufferedImage image = new BufferedImage(width, hight, BufferedImage.TYPE_INT_RGB);
+
+
+    public drawToFile() {
+        int width = 480, height = 720;
+        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
 
 
         def curr = this.start

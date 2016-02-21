@@ -67,9 +67,6 @@ class ChartTest extends GroovyTestCase {
         assertEquals(symbol3, symbol2.next)
         assertEquals(null, symbol3.next)
 
-        chart.draw()
-//        assertEquals(100, chart.width)
-
     }
 
 

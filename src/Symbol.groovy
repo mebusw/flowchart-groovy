@@ -7,6 +7,9 @@ class Symbol {
     String flowState
     boolean isConnected
 
+    int cx
+    int cy
+
 
     Symbol(String key, String text, String flowState = "") {
         this.key = key
